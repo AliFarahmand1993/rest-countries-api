@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
+import DarkMode from './DarkMode';
 
 export default function SingleCountry() {
     const [country, setCountry] = useState([]);
@@ -20,6 +21,7 @@ export default function SingleCountry() {
 
     return (
         <>
+        <DarkMode/>
             <section className='p-8 md:py-8 max-w-7xl mx-auto'>
                 {country.map((item) => (
                     <div key={item.population} className="grid grid-cols-1 gap-8 md:grid-cols-2 md:place-items-center md:h-screen   ">

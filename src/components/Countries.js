@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import CountryDetails from "./CountryDetails";
+import DarkMode from "./DarkMode";
 
 export default function Countries() {
 
@@ -21,7 +22,7 @@ export default function Countries() {
             try {
                 const response = await fetch('https://restcountries.com/v3.1/all');
                 const data = await response.json();
-                SetCountries(data.slice(0, 10));
+                SetCountries(data);
             } catch (error) {
                 console.log(error)
             }
@@ -61,8 +62,9 @@ export default function Countries() {
 
     return (
         <>
+         <DarkMode/>
             {!countries ? (
-                <h1 className="text-gray font-bold uppercase tracking-wide flex items-center          justify-center text-center h-screen text-4xl dark:text-white">Loading...</h1>
+                <h1 className="text-gray font-bold uppercase tracking-wide flex items-center justify-center text-center h-screen text-4xl dark:text-white">Loading...</h1>
             )
                 : (<section className="container mx-auto p-8 ">
                     {/* {form} */}
@@ -76,8 +78,8 @@ export default function Countries() {
                         </form>
                         <form onSubmit={handleFilterByRegion}>
                             <select className="w-52 py-3 px-4 outline-none shadow rounded text-gray-600 dark:text-gray-400  dark:bg-gray-800 dark:focus:bg-gray-700 " name="filter-by-region" id="filter-by-region"
-                            value={regions.name}
-                            onChange={(e)=> filterByRegion(e.target.value)}
+                                value={regions.name}
+                                onChange={(e) => filterByRegion(e.target.value)}
                             >
                                 {regions.map((region, index) => (
                                     <option key={index} value={region.name}>{region.name}</option>
