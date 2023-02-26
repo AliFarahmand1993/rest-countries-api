@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react"
 import CountryDetails from "./CountryDetails";
+import DarkMode from "./DarkMode";
 
 export default function Countries() {
 
     const [countries, SetCountries] = useState([]);
 
     const [searchText, setSearchText] = useState("")
-
-    const [theme, setTheme] = useState(null);
 
     const regions = [
         { name: "Europe" },
@@ -61,37 +60,9 @@ export default function Countries() {
         filterByRegion()
     }
 
-
-
-
-    useEffect(() => {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme('dark');
-        }
-        else {
-            setTheme('light');
-        }
-    }, [])
-
-    useEffect(() => {
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    }, [theme]);
-
-    const handleThemeSwitch = () => {
-        setTheme(theme === "dark" ? "light" : "dark");
-    };
-
-
     return (
         <>
-            <div className="py-6 px-28 w-full flex-auto justify-between bg-white flex rounded outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-800 dark:focus:bg-gray-700 transition-all">
-                <h1 className="text-lg font-semibold mt-2">Where In The World?</h1>
-                <button onClick={handleThemeSwitch} className="shadow rounded text-lg font-semibold border py-2 px-4"><i className="fa fas-light"></i>DarkMode</button>
-            </div>
+         <DarkMode/>
             {!countries ? (
                 <h1 className="text-gray font-bold uppercase tracking-wide flex items-center justify-center text-center h-screen text-4xl dark:text-white">Loading...</h1>
             )
