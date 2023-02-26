@@ -7,6 +7,8 @@ export default function Countries() {
 
     const [searchText, setSearchText] = useState("")
 
+    const [theme, setTheme] = useState(null);
+
     const regions = [
         { name: "Europe" },
         { name: "Asia" },
@@ -21,7 +23,7 @@ export default function Countries() {
             try {
                 const response = await fetch('https://restcountries.com/v3.1/all');
                 const data = await response.json();
-                SetCountries(data.slice(0, 10));
+                SetCountries(data);
             } catch (error) {
                 console.log(error)
             }
@@ -59,10 +61,39 @@ export default function Countries() {
         filterByRegion()
     }
 
+
+
+
+    useEffect(() => {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        }
+        else {
+            setTheme('light');
+        }
+    }, [])
+
+    useEffect(() => {
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, [theme]);
+
+    const handleThemeSwitch = () => {
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
+
+
     return (
         <>
+            <div className="py-6 px-28 w-full flex-auto justify-between bg-white flex rounded outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-800 dark:focus:bg-gray-700 transition-all">
+                <h1 className="text-lg font-semibold mt-2">Where In The World?</h1>
+                <button onClick={handleThemeSwitch} className="shadow rounded text-lg font-semibold border py-2 px-4"><i className="fa fas-light"></i>DarkMode</button>
+            </div>
             {!countries ? (
-                <h1 className="text-gray font-bold uppercase tracking-wide flex items-center          justify-center text-center h-screen text-4xl dark:text-white">Loading...</h1>
+                <h1 className="text-gray font-bold uppercase tracking-wide flex items-center justify-center text-center h-screen text-4xl dark:text-white">Loading...</h1>
             )
                 : (<section className="container mx-auto p-8 ">
                     {/* {form} */}
@@ -76,8 +107,8 @@ export default function Countries() {
                         </form>
                         <form onSubmit={handleFilterByRegion}>
                             <select className="w-52 py-3 px-4 outline-none shadow rounded text-gray-600 dark:text-gray-400  dark:bg-gray-800 dark:focus:bg-gray-700 " name="filter-by-region" id="filter-by-region"
-                            value={regions.name}
-                            onChange={(e)=> filterByRegion(e.target.value)}
+                                value={regions.name}
+                                onChange={(e) => filterByRegion(e.target.value)}
                             >
                                 {regions.map((region, index) => (
                                     <option key={index} value={region.name}>{region.name}</option>
